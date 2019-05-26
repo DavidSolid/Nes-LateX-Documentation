@@ -2,6 +2,8 @@
 \usepackage{amsmath}
 \usepackage{float}
 \usepackage{longtable}
+\usepackage{multicol}
+\usepackage{moreenum}
 \title{6502 Microprocessor}
 \author{DavidSolid (LateX document), Unknown (Original)}
 \begin{document}
@@ -817,7 +819,7 @@ store information about calculations. The 6502 has the following registers:
 
   \subsection{CLC (CLC Clear carry flag)}
 
-  Operation:  0 -> C
+  Operation:  $0 \implies C$
   \begin{table}[H]
   \centering
   \begin{tabular}{|c c c c c c|}
@@ -843,7 +845,7 @@ store information about calculations. The 6502 has the following registers:
 
   \subsection{CLD (CLD Clear decimal mode)}
 
-  Operation:  0 -> D
+  Operation:  $0 \implies D$
   \begin{table}[H]
   \centering
   \begin{tabular}{|c c c c c c|}
@@ -869,7 +871,7 @@ store information about calculations. The 6502 has the following registers:
 
   \subsection{CLI (CLI Clear interrupt disable bit)}
 
-  Operation: 0 -> I
+  Operation: $0 \implies I$
   \begin{table}[H]
   \centering
   \begin{tabular}{|c c c c c c|}
@@ -892,783 +894,1525 @@ store information about calculations. The 6502 has the following registers:
   \end{tabular}
   \end{table}
 
-  \end{document}
-  CLV                      CLV Clear overflow flag                      CLV
+  \subsection{CLV (CLV Clear overflow flag)}
 
-  Operation: 0 -> V                                     N Z C I D V
-                                                        _ _ _ _ _ 0
+  Operation: $0 \implies V$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & \_ & \_ & \_ & 0\\
+  \hline
+  \end{tabular}
+  \end{table}
                                 (Ref: 3.6.1)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   CLV                 |    B8   |    1    |    2     |
+    Implied       &   CLV                 &    B8   &    1    &    2     \\
   \hline
+  \end{tabular}
+  \end{table}
 
+  \subsection{CMP (CMP Compare memory and accumulator)}
 
-  CMP                CMP Compare memory and accumulator                 CMP
-
-  Operation:  A - M                                     N Z C I D V
-                                                        / / / _ _ _
+  Operation:  A - M
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & / & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                 (Ref: 4.2.1)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Immediate     |   CMP #Oper           |    C9   |    2    |    2     |
-  |  Zero Page     |   CMP Oper            |    C5   |    2    |    3     |
-  |  Zero Page,X   |   CMP Oper,X          |    D5   |    2    |    4     |
-  |  Absolute      |   CMP Oper            |    CD   |    3    |    4     |
-  |  Absolute,X    |   CMP Oper,X          |    DD   |    3    |    4*    |
-  |  Absolute,Y    |   CMP Oper,Y          |    D9   |    3    |    4*    |
-  |  (Indirect,X)  |   CMP (Oper,X)        |    C1   |    2    |    6     |
-  |  (Indirect),Y  |   CMP (Oper),Y        |    D1   |    2    |    5*    |
+    Immediate     &   CMP \#Oper          &    C9   &    2    &    2     \\
+    Zero Page     &   CMP Oper            &    C5   &    2    &    3     \\
+    Zero Page,X   &   CMP Oper,X          &    D5   &    2    &    4     \\
+    Absolute      &   CMP Oper            &    CD   &    3    &    4     \\
+    Absolute,X    &   CMP Oper,X          &    DD   &    3    &    4*    \\
+    Absolute,Y    &   CMP Oper,Y          &    D9   &    3    &    4*    \\
+    (Indirect,X)  &   CMP (Oper,X)        &    C1   &    2    &    6     \\
+    (Indirect),Y  &   CMP (Oper),Y        &    D1   &    2    &    5*    \\
   \hline
+  \end{tabular}
+  \end{table}
   * Add 1 if page boundary is crossed.
 
-  CPX                  CPX Compare Memory and Index X                   CPX
-                                                        N Z C I D V
-  Operation:  X - M                                     / / / _ _ _
+  \subsection{CPX (CPX Compare Memory and Index X)}
+
+  Operation:  X - M
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & / & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 7.8)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Immediate     |   CPX *Oper           |    E0   |    2    |    2     |
-  |  Zero Page     |   CPX Oper            |    E4   |    2    |    3     |
-  |  Absolute      |   CPX Oper            |    EC   |    3    |    4     |
+    Immediate     &   CPX \#Oper          &    E0   &    2    &    2     \\
+    Zero Page     &   CPX Oper            &    E4   &    2    &    3     \\
+    Absolute      &   CPX Oper            &    EC   &    3    &    4     \\
   \hline
+  \end{tabular}
+  \end{table}
 
-  CPY                  CPY Compare memory and index Y                   CPY
-                                                        N Z C I D V
-  Operation:  Y - M                                     / / / _ _ _
+  \subsection{CPY (CPY Compare memory and index Y)}
+
+  Operation:  Y - M
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & / & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 7.9)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Immediate     |   CPY *Oper           |    C0   |    2    |    2     |
-  |  Zero Page     |   CPY Oper            |    C4   |    2    |    3     |
-  |  Absolute      |   CPY Oper            |    CC   |    3    |    4     |
+    Immediate     &   CPY \#Oper           &    C0   &    2    &    2     \\
+    Zero Page     &   CPY Oper            &    C4   &    2    &    3     \\
+    Absolute      &   CPY Oper            &    CC   &    3    &    4     \\
   \hline
+  \end{tabular}
+  \end{table}
+
+  \subsection{DEC (DEC Decrement memory by one)}
+
+  Operation:  $M - 1 \implies M$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
+                                   (Ref: 10.7)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
+  \hline
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
+  \hline
+    Zero Page     &   DEC Oper            &    C6   &    2    &    5     \\
+    Zero Page,X   &   DEC Oper,X          &    D6   &    2    &    6     \\
+    Absolute      &   DEC Oper            &    CE   &    3    &    6     \\
+    Absolute,X    &   DEC Oper,X          &    DE   &    3    &    7     \\
+  \hline
+  \end{tabular}
+  \end{table}
 
 
-  DEC                   DEC Decrement memory by one                     DEC
+  \subsection{DEX (DEX Decrement index X by one)}
 
-  Operation:  M - 1 -> M                                N Z C I D V
-                                                        / / _ _ _ _
-                                 (Ref: 10.7)
+  Operation:  $X - 1 \implies X$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+  N&Z&C&I&D&V\\
   \hline
-  |  Zero Page     |   DEC Oper            |    C6   |    2    |    5     |
-  |  Zero Page,X   |   DEC Oper,X          |    D6   |    2    |    6     |
-  |  Absolute      |   DEC Oper            |    CE   |    3    |    6     |
-  |  Absolute,X    |   DEC Oper,X          |    DE   |    3    |    7     |
+  / & / & \_ & \_ & \_ & \_\\
   \hline
-
-
-  DEX                   DEX Decrement index X by one                    DEX
-
-  Operation:  X - 1 -> X                                N Z C I D V
-                                                        / / _ _ _ _
+  \end{tabular}
+  \end{table}
                                  (Ref: 7.6)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   DEX                 |    CA   |    1    |    2     |
+    Implied       &   DEX                 &    CA   &    1    &    2     \\
   \hline
+  \end{tabular}
+  \end{table}
 
+  \subsection{DEY (DEY Decrement index Y by one)}
 
-  DEY                   DEY Decrement index Y by one                    DEY
-
-  Operation:  X - 1 -> Y                                N Z C I D V
-                                                        / / _ _ _ _
+  Operation:  $X - 1 \implies Y$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 7.7)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   DEY                 |    88   |    1    |    2     |
+    Implied       &   DEY                 &    88   &    1    &    2     \\
   \hline
+  \end{tabular}
+  \end{table}
 
+  \subsection{EOR (EOR "Exclusive-Or" memory with accumulator)}
 
-  EOR            EOR "Exclusive-Or" memory with accumulator             EOR
-
-  Operation:  A EOR M -> A                              N Z C I D V
-                                                        / / _ _ _ _
+  Operation:  $A EOR M \implies A$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                (Ref: 2.2.3.2)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Immediate     |   EOR #Oper           |    49   |    2    |    2     |
-  |  Zero Page     |   EOR Oper            |    45   |    2    |    3     |
-  |  Zero Page,X   |   EOR Oper,X          |    55   |    2    |    4     |
-  |  Absolute      |   EOR Oper            |    40   |    3    |    4     |
-  |  Absolute,X    |   EOR Oper,X          |    50   |    3    |    4*    |
-  |  Absolute,Y    |   EOR Oper,Y          |    59   |    3    |    4*    |
-  |  (Indirect,X)  |   EOR (Oper,X)        |    41   |    2    |    6     |
-  |  (Indirect),Y  |   EOR (Oper),Y        |    51   |    2    |    5*    |
+    Immediate     &   EOR \#Oper          &    49   &    2    &    2     \\
+    Zero Page     &   EOR Oper            &    45   &    2    &    3     \\
+    Zero Page,X   &   EOR Oper,X          &    55   &    2    &    4     \\
+    Absolute      &   EOR Oper            &    40   &    3    &    4     \\
+    Absolute,X    &   EOR Oper,X          &    50   &    3    &    4*    \\
+    Absolute,Y    &   EOR Oper,Y          &    59   &    3    &    4*    \\
+    (Indirect,X)  &   EOR (Oper,X)        &    41   &    2    &    6     \\
+    (Indirect),Y  &   EOR (Oper),Y        &    51   &    2    &    5*    \\
   \hline
+  \end{tabular}
+  \end{table}
   * Add 1 if page boundary is crossed.
 
-  INC                    INC Increment memory by one                    INC
-                                                        N Z C I D V
-  Operation:  M + 1 -> M                                / / _ _ _ _
+  \subsection{INC (INC Increment memory by one)}
+
+  Operation:  $M + 1 \implies M$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 10.6)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Zero Page     |   INC Oper            |    E6   |    2    |    5     |
-  |  Zero Page,X   |   INC Oper,X          |    F6   |    2    |    6     |
-  |  Absolute      |   INC Oper            |    EE   |    3    |    6     |
-  |  Absolute,X    |   INC Oper,X          |    FE   |    3    |    7     |
+    Zero Page     &   INC Oper            &    E6   &    2    &    5     \\
+    Zero Page,X   &   INC Oper,X          &    F6   &    2    &    6     \\
+    Absolute      &   INC Oper            &    EE   &    3    &    6     \\
+    Absolute,X    &   INC Oper,X          &    FE   &    3    &    7     \\
   \hline
+  \end{tabular}
+  \end{table}
 
-  INX                    INX Increment Index X by one                   INX
-                                                        N Z C I D V
-  Operation:  X + 1 -> X                                / / _ _ _ _
+  \subsection{INX (INX Increment Index X by one)}
+
+  Operation:  $X + 1 \implies X$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 7.4)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   INX                 |    E8   |    1    |    2     |
+    Implied       &   INX                 &    E8   &    1    &    2     \\
   \hline
+  \end{tabular}
+  \end{table}
 
+  \subsection{INY (INY Increment Index Y by one)}
 
-  INY                    INY Increment Index Y by one                   INY
-
-  Operation:  X + 1 -> X                                N Z C I D V
-                                                        / / _ _ _ _
-                                 (Ref: 7.5)
+  Operation:  $X + 1 \implies X$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+  N&Z&C&I&D&V\\
   \hline
-  |  Implied       |   INY                 |    C8   |    1    |    2     |
+  / & / & \_ & \_ & \_ & \_\\
   \hline
+  \end{tabular}
+  \end{table}
+                                   (Ref: 7.5)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
+  \hline
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
+  \hline
+    Implied       &   INY                 &    C8   &    1    &    2     \\
+  \hline
+  \end{tabular}
+  \end{table}
 
+  \subsection{JMP (JMP Jump to new location)}
 
-  JMP                     JMP Jump to new location                      JMP
-
-  Operation:  (PC + 1) -> PCL                           N Z C I D V
-              (PC + 2) -> PCH   (Ref: 4.0.2)            _ _ _ _ _ _
+  Operation:  $(PC + 1) -> PCL$
+              $(PC + 2) -> PCH$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
+                                (Ref: 4.0.2)
                                 (Ref: 9.8.1)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Absolute      |   JMP Oper            |    4C   |    3    |    3     |
-  |  Indirect      |   JMP (Oper)          |    6C   |    3    |    5     |
+    Absolute      &   JMP Oper            &    4C   &    3    &    3     \\
+    Indirect      &   JMP (Oper)          &    6C   &    3    &    5     \\
   \hline
+  \end{tabular}
+  \end{table}
 
+  \subsection{JSR (JSR Jump to new location saving return address)}
 
-  JSR          JSR Jump to new location saving return address           JSR
+  Operation:  $PC + 2 toS, (PC + 1) \implies PCL$
+                          $(PC + 2) \implies PCH$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
 
-  Operation:  PC + 2 toS, (PC + 1) -> PCL               N Z C I D V
-                          (PC + 2) -> PCH               _ _ _ _ _ _
                                  (Ref: 8.1)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Absolute      |   JSR Oper            |    20   |    3    |    6     |
+    Absolute      &   JSR Oper            &    20   &    3    &    6     \\
   \hline
-
+  \end{tabular}
+  \end{table}
 
   LDA                  LDA Load accumulator with memory                 LDA
 
-  Operation:  M -> A                                    N Z C I D V
-                                                        / / _ _ _ _
+  Operation:  $M \implies A$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                 (Ref: 2.1.1)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Immediate     |   LDA #Oper           |    A9   |    2    |    2     |
-  |  Zero Page     |   LDA Oper            |    A5   |    2    |    3     |
-  |  Zero Page,X   |   LDA Oper,X          |    B5   |    2    |    4     |
-  |  Absolute      |   LDA Oper            |    AD   |    3    |    4     |
-  |  Absolute,X    |   LDA Oper,X          |    BD   |    3    |    4*    |
-  |  Absolute,Y    |   LDA Oper,Y          |    B9   |    3    |    4*    |
-  |  (Indirect,X)  |   LDA (Oper,X)        |    A1   |    2    |    6     |
-  |  (Indirect),Y  |   LDA (Oper),Y        |    B1   |    2    |    5*    |
+    Immediate     &   LDA \#Oper           &    A9   &    2    &    2     \\
+    Zero Page     &   LDA Oper            &    A5   &    2    &    3     \\
+    Zero Page,X   &   LDA Oper,X          &    B5   &    2    &    4     \\
+    Absolute      &   LDA Oper            &    AD   &    3    &    4     \\
+    Absolute,X    &   LDA Oper,X          &    BD   &    3    &    4*    \\
+    Absolute,Y    &   LDA Oper,Y          &    B9   &    3    &    4*    \\
+    (Indirect,X)  &   LDA (Oper,X)        &    A1   &    2    &    6     \\
+    (Indirect),Y  &   LDA (Oper),Y        &    B1   &    2    &    5*    \\
   \hline
+  \end{tabular}
+  \end{table}
   * Add 1 if page boundary is crossed.
 
+  \subsection{LDX (LDX Load index X with memory)}
 
-  LDX                   LDX Load index X with memory                    LDX
-
-  Operation:  M -> X                                    N Z C I D V
-                                                        / / _ _ _ _
+  Operation:  $M \implies X$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 7.0)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Immediate     |   LDX #Oper           |    A2   |    2    |    2     |
-  |  Zero Page     |   LDX Oper            |    A6   |    2    |    3     |
-  |  Zero Page,Y   |   LDX Oper,Y          |    B6   |    2    |    4     |
-  |  Absolute      |   LDX Oper            |    AE   |    3    |    4     |
-  |  Absolute,Y    |   LDX Oper,Y          |    BE   |    3    |    4*    |
+    Immediate     &   LDX \#Oper           &    A2   &    2    &    2     \\
+    Zero Page     &   LDX Oper            &    A6   &    2    &    3     \\
+    Zero Page,Y   &   LDX Oper,Y          &    B6   &    2    &    4     \\
+    Absolute      &   LDX Oper            &    AE   &    3    &    4     \\
+    Absolute,Y    &   LDX Oper,Y          &    BE   &    3    &    4*    \\
   \hline
+  \end{tabular}
+  \end{table}
   * Add 1 when page boundary is crossed.
 
-
-  LDY                   LDY Load index Y with memory                    LDY
-                                                        N Z C I D V
-  Operation:  M -> Y                                    / / _ _ _ _
+  \subsection{LDY (LDY Load index Y with memory)}
+  
+  Operation:  $M \implies Y$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 7.1)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Immediate     |   LDY #Oper           |    A0   |    2    |    2     |
-  |  Zero Page     |   LDY Oper            |    A4   |    2    |    3     |
-  |  Zero Page,X   |   LDY Oper,X          |    B4   |    2    |    4     |
-  |  Absolute      |   LDY Oper            |    AC   |    3    |    4     |
-  |  Absolute,X    |   LDY Oper,X          |    BC   |    3    |    4*    |
+    Immediate     &   LDY \#Oper          &    A0   &    2    &    2     \\
+    Zero Page     &   LDY Oper            &    A4   &    2    &    3     \\
+    Zero Page,X   &   LDY Oper,X          &    B4   &    2    &    4     \\
+    Absolute      &   LDY Oper            &    AC   &    3    &    4     \\
+    Absolute,X    &   LDY Oper,X          &    BC   &    3    &    4*    \\
   \hline
+  \end{tabular}
+  \end{table}
   * Add 1 when page boundary is crossed.
 
+  \subsection{LSR (LSR Shift right one bit (memory or accumulator))}
 
-  LSR          LSR Shift right one bit (memory or accumulator)          LSR
-
-                   +-+-+-+-+-+-+-+-+
-  Operation:  0 -> |7|6|5|4|3|2|1|0| -> C               N Z C I D V
-                   +-+-+-+-+-+-+-+-+                    0 / / _ _ _
+  Operation:  $0 \implies$ \begin{tabular}{|c|c|c|c|c|c|c|c|}\hline7&6&5&4&3&2&1&0\\\hline\end{tabular} $\implies C$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  0 & / & / & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 10.1)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Accumulator   |   LSR A               |    4A   |    1    |    2     |
-  |  Zero Page     |   LSR Oper            |    46   |    2    |    5     |
-  |  Zero Page,X   |   LSR Oper,X          |    56   |    2    |    6     |
-  |  Absolute      |   LSR Oper            |    4E   |    3    |    6     |
-  |  Absolute,X    |   LSR Oper,X          |    5E   |    3    |    7     |
+    Accumulator   &   LSR A               &    4A   &    1    &    2     \\
+    Zero Page     &   LSR Oper            &    46   &    2    &    5     \\
+    Zero Page,X   &   LSR Oper,X          &    56   &    2    &    6     \\
+    Absolute      &   LSR Oper            &    4E   &    3    &    6     \\
+    Absolute,X    &   LSR Oper,X          &    5E   &    3    &    7     \\
   \hline
+  \end{tabular}
+  \end{table}
 
+  \subsection{NOP (NOP No operation)}
+  
+  Operation:  No Operation (2 cycles)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
 
-  NOP                         NOP No operation                          NOP
-                                                        N Z C I D V
-  Operation:  No Operation (2 cycles)                   _ _ _ _ _ _
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
+  \hline
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
+  \hline
+    Implied       &   NOP                 &    EA   &    1    &    2     \\
+  \hline
+  \end{tabular}
+  \end{table}
 
-  \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
-  \hline
-  |  Implied       |   NOP                 |    EA   |    1    |    2     |
-  \hline
+  \subsection{ORA (ORA "OR" memory with accumulator)}
 
-
-  ORA                 ORA "OR" memory with accumulator                  ORA
-
-  Operation: A V M -> A                                 N Z C I D V
-                                                        / / _ _ _ _
-                               (Ref: 2.2.3.1)
+  Operation: $A \lor M \implies A$
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+  N&Z&C&I&D&V\\
   \hline
-  |  Immediate     |   ORA #Oper           |    09   |    2    |    2     |
-  |  Zero Page     |   ORA Oper            |    05   |    2    |    3     |
-  |  Zero Page,X   |   ORA Oper,X          |    15   |    2    |    4     |
-  |  Absolute      |   ORA Oper            |    0D   |    3    |    4     |
-  |  Absolute,X    |   ORA Oper,X          |    1D   |    3    |    4*    |
-  |  Absolute,Y    |   ORA Oper,Y          |    19   |    3    |    4*    |
-  |  (Indirect,X)  |   ORA (Oper,X)        |    01   |    2    |    6     |
-  |  (Indirect),Y  |   ORA (Oper),Y        |    11   |    2    |    5     |
+  / & / & \_ & \_ & \_ & \_\\
   \hline
+  \end{tabular}
+  \end{table}
+                                 (Ref: 2.2.3.1)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
+  \hline
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
+  \hline
+    Immediate     &   ORA \#Oper           &    09   &    2    &    2     \\
+    Zero Page     &   ORA Oper            &    05   &    2    &    3     \\
+    Zero Page,X   &   ORA Oper,X          &    15   &    2    &    4     \\
+    Absolute      &   ORA Oper            &    0D   &    3    &    4     \\
+    Absolute,X    &   ORA Oper,X          &    1D   &    3    &    4*    \\
+    Absolute,Y    &   ORA Oper,Y          &    19   &    3    &    4*    \\
+    (Indirect,X)  &   ORA (Oper,X)        &    01   &    2    &    6     \\
+    (Indirect),Y  &   ORA (Oper),Y        &    11   &    2    &    5     \\
+  \hline
+  \end{tabular}
+  \end{table}
   * Add 1 on page crossing
 
+  \subsection{PHA (PHA Push accumulator on stack)}
 
-  PHA                   PHA Push accumulator on stack                   PHA
-
-  Operation:  A toS                                     N Z C I D V
-                                                        _ _ _ _ _ _
+  Operation:  A toS
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 8.5)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   PHA                 |    48   |    1    |    3     |
+    Implied       &   PHA                 &    48   &    1    &    3     \\
   \hline
+  \end{tabular}
+  \end{table}
 
+  \subsection{PHP (PHP Push processor status on stack)}
 
-  PHP                 PHP Push processor status on stack                PHP
-
-  Operation:  P toS                                     N Z C I D V
-                                                        _ _ _ _ _ _
+  Operation:  P toS
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 8.11)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+   Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   PHP                 |    08   |    1    |    3     |
+    Implied       &   PHP                 &    08   &    1    &    3     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-  PLA                 PLA Pull accumulator from stack                   PLA
+  \subsection{PLA (PLA Pull accumulator from stack)}
 
-  Operation:  A fromS                                   N Z C I D V
-                                                        _ _ _ _ _ _
+  Operation:  A fromS
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 8.6)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   PLA                 |    68   |    1    |    4     |
+     Implied       &   PLA                 &    68   &    1    &    4     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-  PLP               PLP Pull processor status from stack                PLA
+  \subsection{PLP (PLP Pull processor status from stack)}
 
-  Operation:  P fromS                                   N Z C I D V
-                                                         From Stack
+  Operation:  P fromS
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \multicolumn{6}{|c|}{From Stack}\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 8.12)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   PLP                 |    28   |    1    |    4     |
+     Implied       &   PLP                 &    28   &    1    &    4     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-  ROL          ROL Rotate one bit left (memory or accumulator)          ROL
+  \subsection{ROL (Rotate one bit left (memory or accumulator))}
 
-               +------------------------------+
-               |         M or A               |
-               |   +-+-+-+-+-+-+-+-+    +-+   |
-  Operation:   +-< |7|6|5|4|3|2|1|0| <- |C| <-+         N Z C I D V
-                   +-+-+-+-+-+-+-+-+    +-+             / / / _ _ _
+  %             +------------------------------+
+  %             |         M or A               |
+  %             |   +-+-+-+-+-+-+-+-+    +-+   |
+  %Operation:   +-< |7|6|5|4|3|2|1|0| <- |C| <-+         N Z C I D V
+  %                 +-+-+-+-+-+-+-+-+    +-+             / / / _ _ _
+  \begin{center}M or A\end{center}
+  Operation:
+  ...$\Leftarrow$
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+  \hline
+  7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+  \hline
+  \end{tabular}
+  $\Leftarrow$
+  \begin{tabular}{|c|}
+  \hline
+  C \\
+  \hline
+  \end{tabular}
+  $\Leftarrow$...
+
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & / & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 10.3)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Accumulator   |   ROL A               |    2A   |    1    |    2     |
-  |  Zero Page     |   ROL Oper            |    26   |    2    |    5     |
-  |  Zero Page,X   |   ROL Oper,X          |    36   |    2    |    6     |
-  |  Absolute      |   ROL Oper            |    2E   |    3    |    6     |
-  |  Absolute,X    |   ROL Oper,X          |    3E   |    3    |    7     |
+     Accumulator   &   ROL A               &    2A   &    1    &    2     \\
+     Zero Page     &   ROL Oper            &    26   &    2    &    5     \\
+     Zero Page,X   &   ROL Oper,X          &    36   &    2    &    6     \\
+     Absolute      &   ROL Oper            &    2E   &    3    &    6     \\
+     Absolute,X    &   ROL Oper,X          &    3E   &    3    &    7     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-  ROR          ROR Rotate one bit right (memory or accumulator)         ROR
+  \subsection{ROR (ROR Rotate one bit right (memory or accumulator))}
 
-               +------------------------------+
-               |                              |
-               |   +-+    +-+-+-+-+-+-+-+-+   |
-  Operation:   +-> |C| -> |7|6|5|4|3|2|1|0| >-+         N Z C I D V
-                   +-+    +-+-+-+-+-+-+-+-+             / / / _ _ _
+  %             +------------------------------+
+  %             |                              |
+  %             |   +-+    +-+-+-+-+-+-+-+-+   |
+  %Operation:   +-> |C| -> |7|6|5|4|3|2|1|0| >-+         N Z C I D V
+  %                 +-+    +-+-+-+-+-+-+-+-+             / / / _ _ _
+  \begin{center}M or A\end{center}
+  Operation:
+  ...$\Rightarrow$
+  \begin{tabular}{|c|}
+  \hline
+  C \\
+  \hline
+  \end{tabular}
+  $\Rightarrow$
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+  \hline
+  7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+  \hline
+  \end{tabular}
+  $\Rightarrow$...
+
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & / & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 10.4)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Accumulator   |   ROR A               |    6A   |    1    |    2     |
-  |  Zero Page     |   ROR Oper            |    66   |    2    |    5     |
-  |  Zero Page,X   |   ROR Oper,X          |    76   |    2    |    6     |
-  |  Absolute      |   ROR Oper            |    6E   |    3    |    6     |
-  |  Absolute,X    |   ROR Oper,X          |    7E   |    3    |    7     |
+     Accumulator   &   ROR A               &    6A   &    1    &    2     \\
+     Zero Page     &   ROR Oper            &    66   &    2    &    5     \\
+     Zero Page,X   &   ROR Oper,X          &    76   &    2    &    6     \\
+     Absolute      &   ROR Oper            &    6E   &    3    &    6     \\
+     Absolute,X    &   ROR Oper,X          &    7E   &    3    &    7     \\
   \hline
+  \end{tabular}
+  \end{table}
 
     Note: ROR instruction is available on MCS650X microprocessors after
           June, 1976.
 
 
-  RTI                    RTI Return from interrupt                      RTI
-                                                        N Z C I D V
-  Operation:  P fromS PC fromS                           From Stack
+  \subsection{RTI (RTI Return from interrupt)}
+  Operation:  P fromS PC fromS
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \multicolumn{6}{|c|}{From Stack}\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 9.6)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   RTI                 |    4D   |    1    |    6     |
+     Implied       &   RTI                 &    4D   &    1    &    6     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-  RTS                    RTS Return from subroutine                     RTS
-                                                        N Z C I D V
-  Operation:  PC fromS, PC + 1 -> PC                    _ _ _ _ _ _
+  \subsection{RTS (RTS Return from subroutine)}
+  Operation:  PC fromS, PC + 1 $\implies$ PC
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 8.2)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   RTS                 |    60   |    1    |    6     |
+     Implied       &   RTS                 &    60   &    1    &    6     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-  SBC          SBC Subtract memory from accumulator with borrow         SBC
-                      -
-  Operation:  A - M - C -> A                            N Z C I D V
-         -                                              / / / _ _ /
-    Note:C = Borrow             (Ref: 2.2.2)
+  \subsection{SBC (SBC Subtract memory from accumulator with borrow)}
+  Operation:  A - M - C\textsuperscript{B} $\implies$ A
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+  N&Z&C&I&D&V\\
   \hline
-  |  Immediate     |   SBC #Oper           |    E9   |    2    |    2     |
-  |  Zero Page     |   SBC Oper            |    E5   |    2    |    3     |
-  |  Zero Page,X   |   SBC Oper,X          |    F5   |    2    |    4     |
-  |  Absolute      |   SBC Oper            |    ED   |    3    |    4     |
-  |  Absolute,X    |   SBC Oper,X          |    FD   |    3    |    4*    |
-  |  Absolute,Y    |   SBC Oper,Y          |    F9   |    3    |    4*    |
-  |  (Indirect,X)  |   SBC (Oper,X)        |    E1   |    2    |    6     |
-  |  (Indirect),Y  |   SBC (Oper),Y        |    F1   |    2    |    5     |
+  / & / & / & \_ & \_ & /\\
   \hline
+  \end{tabular}
+  \end{table}
+    Note:C\textsuperscript{B} = Borrow\\
+    (Ref: 2.2.2)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
+  \hline
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
+  \hline
+     Immediate     &   SBC \#Oper           &    E9   &    2    &    2     \\
+     Zero Page     &   SBC Oper            &    E5   &    2    &    3     \\
+     Zero Page,X   &   SBC Oper,X          &    F5   &    2    &    4     \\
+     Absolute      &   SBC Oper            &    ED   &    3    &    4     \\
+     Absolute,X    &   SBC Oper,X          &    FD   &    3    &    4*    \\
+     Absolute,Y    &   SBC Oper,Y          &    F9   &    3    &    4*    \\
+     (Indirect,X)  &   SBC (Oper,X)        &    E1   &    2    &    6     \\
+     (Indirect),Y  &   SBC (Oper),Y        &    F1   &    2    &    5     \\
+  \hline
+  \end{tabular}
+  \end{table}
   * Add 1 when page boundary is crossed.
 
 
-  SEC                        SEC Set carry flag                         SEC
-
-  Operation:  1 -> C                                    N Z C I D V
-                                                        _ _ 1 _ _ _
+  \subsection{SEC (SEC Set carry flag)}
+  Operation:  1 $\implies$ C
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & 1 & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                 (Ref: 3.0.1)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   SEC                 |    38   |    1    |    2     |
+     Implied       &   SEC                 &    38   &    1    &    2     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-  SED                       SED Set decimal mode                        SED
-                                                        N Z C I D V
-  Operation:  1 -> D                                    _ _ _ _ 1 _
+  \subsection{SED (SED Set decimal mode)}
+  Operation:  1 $\implies$ D
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & \_ & \_ & 1 & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                 (Ref: 3.3.1)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   SED                 |    F8   |    1    |    2     |
+     Implied       &   SED                 &    F8   &    1    &    2     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-  SEI                 SEI Set interrupt disable status                  SED
-                                                        N Z C I D V
-  Operation:  1 -> I                                    _ _ _ 1 _ _
+  \subsection{SEI (SEI Set interrupt disable status)}
+  Operation:  1 $\implies$ I
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & \_ & 1 & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                 (Ref: 3.2.1)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   SEI                 |    78   |    1    |    2     |
+     Implied       &   SEI                 &    78   &    1    &    2     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-  STA                  STA Store accumulator in memory                  STA
-
-  Operation:  A -> M                                    N Z C I D V
-                                                        _ _ _ _ _ _
+  \subsection{STA (STA Store accumulator in memory)}
+  Operation:  A $\implies$ M
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                 (Ref: 2.1.2)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Zero Page     |   STA Oper            |    85   |    2    |    3     |
-  |  Zero Page,X   |   STA Oper,X          |    95   |    2    |    4     |
-  |  Absolute      |   STA Oper            |    80   |    3    |    4     |
-  |  Absolute,X    |   STA Oper,X          |    90   |    3    |    5     |
-  |  Absolute,Y    |   STA Oper, Y         |    99   |    3    |    5     |
-  |  (Indirect,X)  |   STA (Oper,X)        |    81   |    2    |    6     |
-  |  (Indirect),Y  |   STA (Oper),Y        |    91   |    2    |    6     |
+     Zero Page     &   STA Oper            &    85   &    2    &    3     \\
+     Zero Page,X   &   STA Oper,X          &    95   &    2    &    4     \\
+     Absolute      &   STA Oper            &    80   &    3    &    4     \\
+     Absolute,X    &   STA Oper,X          &    90   &    3    &    5     \\
+     Absolute,Y    &   STA Oper, Y         &    99   &    3    &    5     \\
+     (Indirect,X)  &   STA (Oper,X)        &    81   &    2    &    6     \\
+     (Indirect),Y  &   STA (Oper),Y        &    91   &    2    &    6     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-  STX                    STX Store index X in memory                    STX
-
-  Operation: X -> M                                     N Z C I D V
-                                                        _ _ _ _ _ _
+  \subsection{STX (STX Store index X in memory)}
+  Operation: X $\implies$ M
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 7.2)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Zero Page     |   STX Oper            |    86   |    2    |    3     |
-  |  Zero Page,Y   |   STX Oper,Y          |    96   |    2    |    4     |
-  |  Absolute      |   STX Oper            |    8E   |    3    |    4     |
+     Zero Page     &   STX Oper            &    86   &    2    &    3     \\
+     Zero Page,Y   &   STX Oper,Y          &    96   &    2    &    4     \\
+     Absolute      &   STX Oper            &    8E   &    3    &    4     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-  STY                    STY Store index Y in memory                    STY
-
-  Operation: Y -> M                                     N Z C I D V
-                                                        _ _ _ _ _ _
+  \subsection{STY (STY Store index Y in memory)}
+  Operation: Y $\implies$ M
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 7.3)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Zero Page     |   STY Oper            |    84   |    2    |    3     |
-  |  Zero Page,X   |   STY Oper,X          |    94   |    2    |    4     |
-  |  Absolute      |   STY Oper            |    8C   |    3    |    4     |
+     Zero Page     &   STY Oper            &    84   &    2    &    3     \\
+     Zero Page,X   &   STY Oper,X          &    94   &    2    &    4     \\
+     Absolute      &   STY Oper            &    8C   &    3    &    4     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-  TAX                TAX Transfer accumulator to index X                TAX
-
-  Operation:  A -> X                                    N Z C I D V
-                                                        / / _ _ _ _
+  \subsection{TAX (TAX Transfer accumulator to index X)}
+  Operation:  A $\implies$ X
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 7.11)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   TAX                 |    AA   |    1    |    2     |
+     Implied       &   TAX                 &    AA   &    1    &    2     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-  TAY                TAY Transfer accumulator to index Y                TAY
-
-  Operation:  A -> Y                                    N Z C I D V
-                                                        / / _ _ _ _
+  \subsection{TAY (TAY Transfer accumulator to index Y)}
+  Operation:  A $\implies$ Y
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 7.13)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   TAY                 |    A8   |    1    |    2     |
+     Implied       &   TAY                 &    A8   &    1    &    2     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-  TSX              TSX Transfer stack pointer to index X                TSX
-
-  Operation:  S -> X                                    N Z C I D V
-                                                        / / _ _ _ _
+  \subsection{TSX (TSX Transfer stack pointer to index X)}
+  Operation:  S $\implies$ X
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 8.9)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   TSX                 |    BA   |    1    |    2     |
+     Implied       &   TSX                 &    BA   &    1    &    2     \\
   \hline
+  \end{tabular}
+  \end{table}
 
-  TXA                TXA Transfer index X to accumulator                TXA
-                                                        N Z C I D V
-  Operation:  X -> A                                    / / _ _ _ _
+  \subsection{TXA (TXA Transfer index X to accumulator)}
+  Operation:  X $\implies$ A
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 7.12)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   TXA                 |    8A   |    1    |    2     |
+     Implied       &   TXA                 &    8A   &    1    &    2     \\
   \hline
+  \end{tabular}
+  \end{table}
 
-  TXS              TXS Transfer index X to stack pointer                TXS
-                                                        N Z C I D V
-  Operation:  X -> S                                    _ _ _ _ _ _
+  \subsection{TXS (TXS Transfer index X to stack pointer)}
+  Operation:  X $\implies$ S
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  \_ & \_ & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 8.8)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   TXS                 |    9A   |    1    |    2     |
+     Implied       &   TXS                 &    9A   &    1    &    2     \\
   \hline
+  \end{tabular}
+  \end{table}
 
-  TYA                TYA Transfer index Y to accumulator                TYA
 
-  Operation:  Y -> A                                    N Z C I D V
-                                                        / / _ _ _ _
+  \subsection{TYA (TYA Transfer index Y to accumulator)}
+  Operation:  Y $\implies$ A
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c c c c c c|}
+  \hline
+  N&Z&C&I&D&V\\
+  \hline
+  / & / & \_ & \_ & \_ & \_\\
+  \hline
+  \end{tabular}
+  \end{table}
                                  (Ref: 7.14)
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|c|c|c|}
   \hline
-  | Addressing Mode| Assembly Language Form| OP CODE |No. Bytes|No. Cycles|
+    Addressing Mode& Assembly Language Form& OP CODE &No. Bytes&No. Cycles\\
   \hline
-  |  Implied       |   TYA                 |    98   |    1    |    2     |
+     Implied       &   TYA                 &    98   &    1    &    2     \\
   \hline
+  \end{tabular}
+  \end{table}
 
 
-
-  +------------------------------------------------------------------------
-  | INSTRUCTION ADDRESSING MODES AND RELATED EXECUTION TIMES
-  | (in clock cycles)
-  +------------------------------------------------------------------------
-
-                  A   A   A   B   B   B   B   B   B   B   B   B   B   C
-                  D   N   S   C   C   E   I   M   N   P   R   V   V   L
-                  C   D   L   C   S   Q   T   I   E   L   K   C   S   C
-  Accumulator  |  .   .   2   .   .   .   .   .   .   .   .   .   .   .
-  Immediate    |  2   2       .   .   .   .   .   .   .   .   .   .   .
-  Zero Page    |  3   3   5   .   .   .   3   .   .   .   .   .   .   .
-  Zero Page,X  |  4   4   6   .   .   .   .   .   .   .   .   .   .   .
-  Zero Page,Y  |  .   .   .   .   .   .   .   .   .   .   .   .   .   .
-  Absolute     |  4   4   6   .   .   .   4   .   .   .   .   .   .   .
-  Absolute,X   |  4*  4*  7   .   .   .   .   .   .   .   .   .   .   .
-  Absolute,Y   |  4*  4*  .   .   .   .   .   .   .   .   .   .   .   .
-  Implied      |  .   .   .   .   .   .   .   .   .   .   .   .   .   2
-  Relative     |  .   .   .   2** 2** 2** .   2** 2** 2** 7   2** 2** .
-  (Indirect,X) |  6   6   .   .   .   .   .   .   .   .   .   .   .   .
-  (Indirect),Y |  5*  5*  .   .   .   .   .   .   .   .   .   .   .   .
-  Abs. Indirect|  .   .   .   .   .   .   .   .   .   .   .   .   .   .
-               +-----------------------------------------------------------
-                  C   C   C   C   C   C   D   D   D   E   I   I   I   J
-                  L   L   L   M   P   P   E   E   E   O   N   N   N   M
-                  D   I   V   P   X   Y   C   X   Y   R   C   X   Y   P
-  Accumulator  |  .   .   .   .   .   .   .   .   .   .   .   .   .   .
-  Immediate    |  .   .   .   2   2   2   .   .   .   2   .   .   .   .
-  Zero Page    |  .   .   .   3   3   3   5   .   .   3   5   .   .   .
-  Zero Page,X  |  .   .   .   4   .   .   6   .   .   4   6   .   .   .
-  Zero Page,Y  |  .   .   .   .   .   .   .   .   .   .   .   .   .   .
-  Absolute     |  .   .   .   4   4   4   6   .   .   4   6   .   .   3
-  Absolute,X   |  .   .   .   4*  .   .   7   .   .   4*  7   .   .   .
-  Absolute,Y   |  .   .   .   4*  .   .   .   .   .   4*  .   .   .   .
-  Implied      |  2   2   2   .   .   .   .   2   2   .   .   2   2   .
-  Relative     |  .   .   .   .   .   .   .   .   .   .   .   .   .   .
-  (Indirect,X) |  .   .   .   6   .   .   .   .   .   6   .   .   .   .
-  (Indirect),Y |  .   .   .   5*  .   .   .   .   .   5*  .   .   .   .
-  Abs. Indirect|  .   .   .   .   .   .   .   .   .   .   .   .   .   5
-               +-----------------------------------------------------------
+%  +------------------------------------------------------------------------
+%  | INSTRUCTION ADDRESSING MODES AND RELATED EXECUTION TIMES
+%  | (in clock cycles)
+%  +------------------------------------------------------------------------
+  \section{General instruction set overview}
+  \subsection{Instruction addressing modes and related execution times (in clock cycles)}
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|c c c c c c c c c c c c c c|}
+  \hline
+               &  A & A & A & B & B & B & B & B & B & B & B & B & B & C\\
+               &  D & N & S & C & C & E & I & M & N & P & R & V & V & L\\
+               &  C & D & L & C & S & Q & T & I & E & L & K & C & S & C\\
+  \hline
+  Accumulator  &  . & . & 2 & . & . & . & . & . & . & . & . & . & . & .\\
+  Immediate    &  2 & 2 &  &  . & . & . & . & . & . & . & . & . & . & .\\
+  Zero Page    &  3 & 3 & 5 & . & . & . & 3 & . & . & . & . & . & . & .\\
+  Zero Page,X  &  4 & 4 & 6 & . & . & . & . & . & . & . & . & . & . & .\\
+  Zero Page,Y  &  . & . & . & . & . & . & . & . & . & . & . & . & . & .\\
+  Absolute     &  4 & 4 & 6 & . & . & . & 4 & . & . & . & . & . & . & .\\
+  Absolute,X   &  4*& 4*& 7 & . & . & . & . & . & . & . & . & . & . & .\\
+  Absolute,Y   &  4*& 4*& . & . & . & . & . & . & . & . & . & . & . & .\\
+  Implied      &  . & . & . & . & . & . & . & . & . & . & . & . & . & 2\\
+  Relative     &  . & . & . & 2**&2**&2**&. & 2**&2**&2**&7 & 2**&2**&.\\
+  (Indirect,X) &  6 & 6 & . & . & . & . & . & . & . & . & . & . & . & .\\
+  (Indirect),Y &  5*& 5*& . & . & . & . & . & . & . & . & . & . & . & .\\
+  Abs. Indirect&  . & . & . & . & . & . & . & . & . & . & . & . & . & .\\
+  \hline
+  \end{tabular}
+  \end{table}
+  
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|c c c c c c c c c c c c c c|}
+  \hline
+               &  C & C & C & C & C & C & D & D & D & E & I & I & I & J\\
+               &  L & L & L & M & P & P & E & E & E & O & N & N & N & M\\
+               &  D & I & V & P & X & Y & C & X & Y & R & C & X & Y & P\\
+  \hline
+  Accumulator  &  . & . & . & . & . & . & . & . & . & . & . & . & . & .\\
+  Immediate    &  . & . & . & 2 & 2 & 2 & . & . & . & 2 & . & . & . & .\\
+  Zero Page    &  . & . & . & 3 & 3 & 3 & 5 & . & . & 3 & 5 & . & . & .\\
+  Zero Page,X  &  . & . & . & 4 & . & . & 6 & . & . & 4 & 6 & . & . & .\\
+  Zero Page,Y  &  . & . & . & . & . & . & . & . & . & . & . & . & . & .\\
+  Absolute     &  . & . & . & 4 & 4 & 4 & 6 & . & . & 4 & 6 & . & . & 3\\
+  Absolute,X   &  . & . & . & 4*& . & . & 7 & . & . & 4*& 7 & . & . & .\\
+  Absolute,Y   &  . & . & . & 4*& . & . & . & . & . & 4*& . & . & . & .\\
+  Implied      &  2 & 2 & 2 & . & . & . & . & 2 & 2 & . & . & 2 & 2 & .\\
+  Relative     &  . & . & . & . & . & . & . & . & . & . & . & . & . & .\\
+  (Indirect,X) &  . & . & . & 6 & . & . & . & . & . & 6 & . & . & . & .\\
+  (Indirect),Y &  . & . & . & 5*& . & . & . & . & . & 5*& . & . & . & .\\
+  Abs. Indirect&  . & . & . & . & . & . & . & . & . & . & . & . & . & 5\\
+  \hline
+  \end{tabular}
+  \end{table}
      *  Add one cycle if indexing across page boundary
      ** Add one cycle if branch is taken, Add one additional if branching
         operation crosses page boundary
 
 
-  ------------------------------------------------------------------------+
-    INSTRUCTION ADDRESSING MODES AND RELATED EXECUTION TIMES              |
-    (in clock cycles)                                                     |
-  ------------------------------------------------------------------------+
+  %------------------------------------------------------------------------+
+  %  INSTRUCTION ADDRESSING MODES AND RELATED EXECUTION TIMES              |
+  %  (in clock cycles)                                                     |
+  %------------------------------------------------------------------------+
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|c c c c c c c c c c c c c c|}
+  \hline
+                  J & L & L & L & L & N & O & P & P & P & P & R & R & R\\
+                  S & D & D & D & S & O & R & H & H & L & L & O & O & T\\
+                  R & A & X & Y & R & P & A & A & P & A & P & L & R & I\\
+  \hline
+  Accumulator  &  . & . & . & . & 2 & . & . & . & . & . & . & 2 & 2 & .\\
+  Immediate    &  . & 2 & 2 & 2 & . & . & 2 & . & . & . & . & . & . & .\\
+  Zero Page    &  . & 3 & 3 & 3 & 5 & . & 3 & . & . & . & . & 5 & 5 & .\\
+  Zero Page,X  &  . & 4 & . & 4 & 6 & . & 4 & . & . & . & . & 6 & 6 & .\\
+  Zero Page,Y  &  . & . & 4 & . & . & . & . & . & . & . & . & . & . & .\\
+  Absolute     &  6 & 4 & 4 & 4 & 6 & . & 4 & . & . & . & . & 6 & 6 & .\\
+  Absolute,X   &  . & 4*& . & 4*& 7 & . & 4*& . & . & . & . & 7 & 7 & .\\
+  Absolute,Y   &  . & 4*& 4*& . & . & . & 4*& . & . & . & . & . & . & .\\
+  Implied      &  . & . & . & . & . & 2 & . & 3 & 3 & 4 & 4 & . & . & 6\\
+  Relative     &  . & . & . & . & . & . & . & . & . & . & . & . & . & .\\
+  (Indirect,X) &  . & 6 & . & . & . & . & 6 & . & . & . & . & . & . & .\\
+  (Indirect),Y &  . & 5*& . & . & . & . & 5*& . & . & . & . & . & . & .\\
+  Abs. Indirect&  . & . & . & . & . & . & . & . & . & . & . & . & . & .\\
+  \hline
+  \end{tabular}
+  \end{table}
 
-                  J   L   L   L   L   N   O   P   P   P   P   R   R   R
-                  S   D   D   D   S   O   R   H   H   L   L   O   O   T
-                  R   A   X   Y   R   P   A   A   P   A   P   L   R   I
-  Accumulator  |  .   .   .   .   2   .   .   .   .   .   .   2   2   .
-  Immediate    |  .   2   2   2   .   .   2   .   .   .   .   .   .   .
-  Zero Page    |  .   3   3   3   5   .   3   .   .   .   .   5   5   .
-  Zero Page,X  |  .   4   .   4   6   .   4   .   .   .   .   6   6   .
-  Zero Page,Y  |  .   .   4   .   .   .   .   .   .   .   .   .   .   .
-  Absolute     |  6   4   4   4   6   .   4   .   .   .   .   6   6   .
-  Absolute,X   |  .   4*  .   4*  7   .   4*  .   .   .   .   7   7   .
-  Absolute,Y   |  .   4*  4*  .   .   .   4*  .   .   .   .   .   .   .
-  Implied      |  .   .   .   .   .   2   .   3   3   4   4   .   .   6
-  Relative     |  .   .   .   .   .   .   .   .   .   .   .   .   .   .
-  (Indirect,X) |  .   6   .   .   .   .   6   .   .   .   .   .   .   .
-  (Indirect),Y |  .   5*  .   .   .   .   5*  .   .   .   .   .   .   .
-  Abs. Indirect|  .   .   .   .   .   .   .   .   .   .   .   .   .   .
-               +-----------------------------------------------------------
-                  R   S   S   S   S   S   S   S   T   T   T   T   T   T
-                  T   B   E   E   E   T   T   T   A   A   S   X   X   Y
-                  S   C   C   D   I   A   X   Y   X   Y   X   A   S   A
-  Accumulator  |  .   .   .   .   .   .   .   .   .   .   .   .   .   .
-  Immediate    |  .   2   .   .   .   .   .   .   .   .   .   .   .   .
-  Zero Page    |  .   3   .   .   .   3   3   3   .   .   .   .   .   .
-  Zero Page,X  |  .   4   .   .   .   4   .   4   .   .   .   .   .   .
-  Zero Page,Y  |  .   .   .   .   .   .   4   .   .   .   .   .   .   .
-  Absolute     |  .   4   .   .   .   4   4   4   .   .   .   .   .   .
-  Absolute,X   |  .   4*  .   .   .   5   .   .   .   .   .   .   .   .
-  Absolute,Y   |  .   4*  .   .   .   5   .   .   .   .   .   .   .   .
-  Implied      |  6   .   2   2   2   .   .   .   2   2   2   2   2   2
-  Relative     |  .   .   .   .   .   .   .   .   .   .   .   .   .   .
-  (Indirect,X) |  .   6   .   .   .   6   .   .   .   .   .   .   .   .
-  (Indirect),Y |  .   5*  .   .   .   6   .   .   .   .   .   .   .   .
-  Abs. Indirect|  .   .   .   .   .   .   .   .   .   .   .   .   .   .
-               +-----------------------------------------------------------
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|l|c c c c c c c c c c c c c c|}
+  \hline
+               &  R & S & S & S & S & S & S & S & T & T & T & T & T & T\\
+               &  T & B & E & E & E & T & T & T & A & A & S & X & X & Y\\
+               &  S & C & C & D & I & A & X & Y & X & Y & X & A & S & A\\
+  \hline
+  Accumulator  &  . & . & . & . & . & . & . & . & . & . & . & . & . & .\\
+  Immediate    &  . & 2 & . & . & . & . & . & . & . & . & . & . & . & .\\
+  Zero Page    &  . & 3 & . & . & . & 3 & 3 & 3 & . & . & . & . & . & .\\
+  Zero Page,X  &  . & 4 & . & . & . & 4 & . & 4 & . & . & . & . & . & .\\
+  Zero Page,Y  &  . & . & . & . & . & . & 4 & . & . & . & . & . & . & .\\
+  Absolute     &  . & 4 & . & . & . & 4 & 4 & 4 & . & . & . & . & . & .\\
+  Absolute,X   &  . & 4*& . & . & . & 5 & . & . & . & . & . & . & . & .\\
+  Absolute,Y   &  . & 4*& . & . & . & 5 & . & . & . & . & . & . & . & .\\
+  Implied      &  6 & . & 2 & 2 & 2 & . & . & . & 2 & 2 & 2 & 2 & 2 & 2\\
+  Relative     &  . & . & . & . & . & . & . & . & . & . & . & . & . & .\\
+  (Indirect,X) &  . & 6 & . & . & . & 6 & . & . & . & . & . & . & . & .\\
+  (Indirect),Y &  . & 5*& . & . & . & 6 & . & . & . & . & . & . & . & .\\
+  Abs. Indirect&  . & . & . & . & . & . & . & . & . & . & . & . & . & .\\
+  \hline
+  \end{tabular}
+  \end{table}
      *  Add one cycle if indexing across page boundary
      ** Add one cycle if branch is taken, Add one additional if branching
         operation crosses page boundary
 
+\subsection{Instruction set ordered by opcode}
+\setlength{\columnsep}{-1cm}
+  \begin{multicols}{2}
+  \begin{enumerate}[label=\enumHex*,start=0]
+    \item[00] 00 - BRK                        
+    \item[01] 01 - ORA - (Indirect,X)         
+    \item[02] 02 - Future Expansion           
+    \item[03] 03 - Future Expansion           
+    \item[04] 04 - Future Expansion           
+    \item[05] 05 - ORA - Zero Page            
+    \item[06] 06 - ASL - Zero Page            
+    \item[07] 07 - Future Expansion           
+    \item[08] 08 - PHP                        
+    \item[09] 09 - ORA - Immediate            
+    \item[0A] 0A - ASL - Accumulator          
+    \item[0B] 0B - Future Expansion           
+    \item[0C] 0C - Future Expansion           
+    \item[0D] 0D - ORA - Absolute             
+    \item[0E] 0E - ASL - Absolute             
+    \item[0F] 0F - Future Expansion 
+    \setcounter{enumi}{15}          
+    \item 10 - BPL                        
+    \item 11 - ORA - (Indirect),Y         
+    \item 12 - Future Expansion           
+    \item 13 - Future Expansion           
+    \item 14 - Future Expansion           
+    \item 15 - ORA - Zero Page,X          
+    \item 16 - ASL - Zero Page,X          
+    \item 17 - Future Expansion           
+    \item 18 - CLC                        
+    \item 19 - ORA - Absolute,Y           
+    \item 1A - Future Expansion           
+    \item 1B - Future Expansion           
+    \item 1C - Future Expansion           
+    \item 1D - ORA - Absolute,X           
+    \item 1E - ASL - Absolute,X           
+    \item 1F - Future Expansion           
+    \item 20 - JSR
+    \item 21 - AND - (Indirect,X)
+    \item 22 - Future Expansion
+    \item 23 - Future Expansion
+    \item 24 - BIT - Zero Page
+    \item 25 - AND - Zero Page
+    \item 26 - ROL - Zero Page
+    \item 27 - Future Expansion
+    \item 28 - PLP
+    \item 29 - AND - Immediate
+    \item 2A - ROL - Accumulator
+    \item 2B - Future Expansion
+    \item 2C - BIT - Absolute
+    \item 2D - AND - Absolute
+    \item 2E - ROL - Absolute
+    \item 2F - Future Expansion
+    \item 30 - BMI
+    \item 31 - AND - (Indirect),Y
+    \item 32 - Future Expansion
+    \item 33 - Future Expansion
+    \item 34 - Future Expansion
+    \item 35 - AND - Zero Page,X
+    \item 36 - ROL - Zero Page,X
+    \item 37 - Future Expansion
+    \item 38 - SEC
+    \item 39 - AND - Absolute,Y
+    \item 3A - Future Expansion
+    \item 3B - Future Expansion
+    \item 3C - Future Expansion
+    \item 3D - AND - Absolute,X
+    \item 3E - ROL - Absolute,X
+    \item 3F - Future Expansion
 
+    \item 40 - RTI                        
+    \item 41 - EOR - (Indirect,X)         
+    \item 42 - Future Expansion           
+    \item 43 - Future Expansion           
+    \item 44 - Future Expansion           
+    \item 45 - EOR - Zero Page            
+    \item 46 - LSR - Zero Page            
+    \item 47 - Future Expansion           
+    \item 48 - PHA                        
+    \item 49 - EOR - Immediate            
+    \item 4A - LSR - Accumulator          
+    \item 4B - Future Expansion           
+    \item 4C - JMP - Absolute             
+    \item 4D - EOR - Absolute             
+    \item 4E - LSR - Absolute             
+    \item 4F - Future Expansion           
+    \item 50 - BVC                        
+    \item 51 - EOR - (Indirect),Y         
+    \item 52 - Future Expansion           
+    \item 53 - Future Expansion           
+    \item 54 - Future Expansion           
+    \item 55 - EOR - Zero Page,X          
+    \item 56 - LSR - Zero Page,X          
+    \item 57 - Future Expansion           
+    \item 58 - CLI                        
+    \item 59 - EOR - Absolute,Y           
+    \item 5A - Future Expansion           
+    \item 5B - Future Expansion           
+    \item 5C - Future Expansion           
+    \item 50 - EOR - Absolute,X           
+    \item 5E - LSR - Absolute,X           
+    \item 5F - Future Expansion           
+    \item 60 - RTS
+    \item 61 - ADC - (Indirect,X)
+    \item 62 - Future Expansion
+    \item 63 - Future Expansion
+    \item 64 - Future Expansion
+    \item 65 - ADC - Zero Page
+    \item 66 - ROR - Zero Page
+    \item 67 - Future Expansion
+    \item 68 - PLA
+    \item 69 - ADC - Immediate
+    \item 6A - ROR - Accumulator
+    \item 6B - Future Expansion
+    \item 6C - JMP - Indirect
+    \item 6D - ADC - Absolute
+    \item 6E - ROR - Absolute
+    \item 6F - Future Expansion
+    \item 70 - BVS
+    \item 71 - ADC - (Indirect),Y
+    \item 72 - Future Expansion
+    \item 73 - Future Expansion
+    \item 74 - Future Expansion
+    \item 75 - ADC - Zero Page,X
+    \item 76 - ROR - Zero Page,X
+    \item 77 - Future Expansion
+    \item 78 - SEI
+    \item 79 - ADC - Absolute,Y
+    \item 7A - Future Expansion
+    \item 7B - Future Expansion
+    \item 7C - Future Expansion
+    \item 70 - ADC - Absolute,X
+    \item 7E - ROR - Absolute,X
+    \item 7F - Future Expansion
 
-        00 - BRK                        20 - JSR
-        01 - ORA - (Indirect,X)         21 - AND - (Indirect,X)
-        02 - Future Expansion           22 - Future Expansion
-        03 - Future Expansion           23 - Future Expansion
-        04 - Future Expansion           24 - BIT - Zero Page
-        05 - ORA - Zero Page            25 - AND - Zero Page
-        06 - ASL - Zero Page            26 - ROL - Zero Page
-        07 - Future Expansion           27 - Future Expansion
-        08 - PHP                        28 - PLP
-        09 - ORA - Immediate            29 - AND - Immediate
-        0A - ASL - Accumulator          2A - ROL - Accumulator
-        0B - Future Expansion           2B - Future Expansion
-        0C - Future Expansion           2C - BIT - Absolute
-        0D - ORA - Absolute             2D - AND - Absolute
-        0E - ASL - Absolute             2E - ROL - Absolute
-        0F - Future Expansion           2F - Future Expansion
-        10 - BPL                        30 - BMI
-        11 - ORA - (Indirect),Y         31 - AND - (Indirect),Y
-        12 - Future Expansion           32 - Future Expansion
-        13 - Future Expansion           33 - Future Expansion
-        14 - Future Expansion           34 - Future Expansion
-        15 - ORA - Zero Page,X          35 - AND - Zero Page,X
-        16 - ASL - Zero Page,X          36 - ROL - Zero Page,X
-        17 - Future Expansion           37 - Future Expansion
-        18 - CLC                        38 - SEC
-        19 - ORA - Absolute,Y           39 - AND - Absolute,Y
-        1A - Future Expansion           3A - Future Expansion
-        1B - Future Expansion           3B - Future Expansion
-        1C - Future Expansion           3C - Future Expansion
-        1D - ORA - Absolute,X           3D - AND - Absolute,X
-        1E - ASL - Absolute,X           3E - ROL - Absolute,X
-        1F - Future Expansion           3F - Future Expansion
+    \item 80 - Future Expansion           
+    \item 81 - STA - (Indirect,X)         
+    \item 82 - Future Expansion           
+    \item 83 - Future Expansion           
+    \item 84 - STY - Zero Page            
+    \item 85 - STA - Zero Page            
+    \item 86 - STX - Zero Page            
+    \item 87 - Future Expansion           
+    \item 88 - DEY                        
+    \item 89 - Future Expansion           
+    \item 8A - TXA                        
+    \item 8B - Future Expansion           
+    \item 8C - STY - Absolute             
+    \item 80 - STA - Absolute             
+    \item 8E - STX - Absolute             
+    \item 8F - Future Expansion           
+    \item 90 - BCC                        
+    \item 91 - STA - (Indirect),Y         
+    \item 92 - Future Expansion           
+    \item 93 - Future Expansion           
+    \item 94 - STY - Zero Page,X          
+    \item 95 - STA - Zero Page,X          
+    \item 96 - STX - Zero Page,Y          
+    \item 97 - Future Expansion           
+    \item 98 - TYA                        
+    \item 99 - STA - Absolute,Y           
+    \item 9A - TXS                        
+    \item 9B - Future Expansion           
+    \item 9C - Future Expansion           
+    \item 90 - STA - Absolute,X           
+    \item 9E - Future Expansion           
+    \item 9F - Future Expansion           
+    \item A0 - LDY - Immediate
+    \item A1 - LDA - (Indirect,X)
+    \item A2 - LDX - Immediate
+    \item A3 - Future Expansion
+    \item A4 - LDY - Zero Page
+    \item A5 - LDA - Zero Page
+    \item A6 - LDX - Zero Page
+    \item A7 - Future Expansion
+    \item A8 - TAY
+    \item A9 - LDA - Immediate
+    \item AA - TAX
+    \item AB - Future Expansion
+    \item AC - LDY - Absolute
+    \item AD - LDA - Absolute
+    \item AE - LDX - Absolute
+    \item AF - Future Expansion
+    \item B0 - BCS
+    \item B1 - LDA - (Indirect),Y
+    \item B2 - Future Expansion
+    \item B3 - Future Expansion
+    \item B4 - LDY - Zero Page,X
+    \item BS - LDA - Zero Page,X
+    \item B6 - LDX - Zero Page,Y
+    \item B7 - Future Expansion
+    \item B8 - CLV
+    \item B9 - LDA - Absolute,Y
+    \item BA - TSX
+    \item BB - Future Expansion
+    \item BC - LDY - Absolute,X
+    \item BD - LDA - Absolute,X
+    \item BE - LDX - Absolute,Y
+    \item BF - Future Expansion
 
-        40 - RTI                        60 - RTS
-        41 - EOR - (Indirect,X)         61 - ADC - (Indirect,X)
-        42 - Future Expansion           62 - Future Expansion
-        43 - Future Expansion           63 - Future Expansion
-        44 - Future Expansion           64 - Future Expansion
-        45 - EOR - Zero Page            65 - ADC - Zero Page
-        46 - LSR - Zero Page            66 - ROR - Zero Page
-        47 - Future Expansion           67 - Future Expansion
-        48 - PHA                        68 - PLA
-        49 - EOR - Immediate            69 - ADC - Immediate
-        4A - LSR - Accumulator          6A - ROR - Accumulator
-        4B - Future Expansion           6B - Future Expansion
-        4C - JMP - Absolute             6C - JMP - Indirect
-        4D - EOR - Absolute             6D - ADC - Absolute
-        4E - LSR - Absolute             6E - ROR - Absolute
-        4F - Future Expansion           6F - Future Expansion
-        50 - BVC                        70 - BVS
-        51 - EOR - (Indirect),Y         71 - ADC - (Indirect),Y
-        52 - Future Expansion           72 - Future Expansion
-        53 - Future Expansion           73 - Future Expansion
-        54 - Future Expansion           74 - Future Expansion
-        55 - EOR - Zero Page,X          75 - ADC - Zero Page,X
-        56 - LSR - Zero Page,X          76 - ROR - Zero Page,X
-        57 - Future Expansion           77 - Future Expansion
-        58 - CLI                        78 - SEI
-        59 - EOR - Absolute,Y           79 - ADC - Absolute,Y
-        5A - Future Expansion           7A - Future Expansion
-        5B - Future Expansion           7B - Future Expansion
-        5C - Future Expansion           7C - Future Expansion
-        50 - EOR - Absolute,X           70 - ADC - Absolute,X
-        5E - LSR - Absolute,X           7E - ROR - Absolute,X
-        5F - Future Expansion           7F - Future Expansion
-
-        80 - Future Expansion           A0 - LDY - Immediate
-        81 - STA - (Indirect,X)         A1 - LDA - (Indirect,X)
-        82 - Future Expansion           A2 - LDX - Immediate
-        83 - Future Expansion           A3 - Future Expansion
-        84 - STY - Zero Page            A4 - LDY - Zero Page
-        85 - STA - Zero Page            A5 - LDA - Zero Page
-        86 - STX - Zero Page            A6 - LDX - Zero Page
-        87 - Future Expansion           A7 - Future Expansion
-        88 - DEY                        A8 - TAY
-        89 - Future Expansion           A9 - LDA - Immediate
-        8A - TXA                        AA - TAX
-        8B - Future Expansion           AB - Future Expansion
-        8C - STY - Absolute             AC - LDY - Absolute
-        80 - STA - Absolute             AD - LDA - Absolute
-        8E - STX - Absolute             AE - LDX - Absolute
-        8F - Future Expansion           AF - Future Expansion
-        90 - BCC                        B0 - BCS
-        91 - STA - (Indirect),Y         B1 - LDA - (Indirect),Y
-        92 - Future Expansion           B2 - Future Expansion
-        93 - Future Expansion           B3 - Future Expansion
-        94 - STY - Zero Page,X          B4 - LDY - Zero Page,X
-        95 - STA - Zero Page,X          BS - LDA - Zero Page,X
-        96 - STX - Zero Page,Y          B6 - LDX - Zero Page,Y
-        97 - Future Expansion           B7 - Future Expansion
-        98 - TYA                        B8 - CLV
-        99 - STA - Absolute,Y           B9 - LDA - Absolute,Y
-        9A - TXS                        BA - TSX
-        9B - Future Expansion           BB - Future Expansion
-        9C - Future Expansion           BC - LDY - Absolute,X
-        90 - STA - Absolute,X           BD - LDA - Absolute,X
-        9E - Future Expansion           BE - LDX - Absolute,Y
-        9F - Future Expansion           BF - Future Expansion
-
-        C0 - Cpy - Immediate            E0 - CPX - Immediate
-        C1 - CMP - (Indirect,X)         E1 - SBC - (Indirect,X)
-        C2 - Future Expansion           E2 - Future Expansion
-        C3 - Future Expansion           E3 - Future Expansion
-        C4 - CPY - Zero Page            E4 - CPX - Zero Page
-        C5 - CMP - Zero Page            E5 - SBC - Zero Page
-        C6 - DEC - Zero Page            E6 - INC - Zero Page
-        C7 - Future Expansion           E7 - Future Expansion
-        C8 - INY                        E8 - INX
-        C9 - CMP - Immediate            E9 - SBC - Immediate
-        CA - DEX                        EA - NOP
-        CB - Future Expansion           EB - Future Expansion
-        CC - CPY - Absolute             EC - CPX - Absolute
-        CD - CMP - Absolute             ED - SBC - Absolute
-        CE - DEC - Absolute             EE - INC - Absolute
-        CF - Future Expansion           EF - Future Expansion
-        D0 - BNE                        F0 - BEQ
-        D1 - CMP   (Indirect@,Y         F1 - SBC - (Indirect),Y
-        D2 - Future Expansion           F2 - Future Expansion
-        D3 - Future Expansion           F3 - Future Expansion
-        D4 - Future Expansion           F4 - Future Expansion
-        D5 - CMP - Zero Page,X          F5 - SBC - Zero Page,X
-        D6 - DEC - Zero Page,X          F6 - INC - Zero Page,X
-        D7 - Future Expansion           F7 - Future Expansion
-        D8 - CLD                        F8 - SED
-        D9 - CMP - Absolute,Y           F9 - SBC - Absolute,Y
-        DA - Future Expansion           FA - Future Expansion
-        DB - Future Expansion           FB - Future Expansion
-        DC - Future Expansion           FC - Future Expansion
-        DD - CMP - Absolute,X           FD - SBC - Absolute,X
-        DE - DEC - Absolute,X           FE - INC - Absolute,X
-        DF - Future Expansion           FF - Future Expansion
-
+    \item C0 - Cpy - Immediate            
+    \item C1 - CMP - (Indirect,X)         
+    \item C2 - Future Expansion           
+    \item C3 - Future Expansion           
+    \item C4 - CPY - Zero Page            
+    \item C5 - CMP - Zero Page            
+    \item C6 - DEC - Zero Page            
+    \item C7 - Future Expansion           
+    \item C8 - INY                        
+    \item C9 - CMP - Immediate            
+    \item CA - DEX                        
+    \item CB - Future Expansion           
+    \item CC - CPY - Absolute             
+    \item CD - CMP - Absolute             
+    \item CE - DEC - Absolute             
+    \item CF - Future Expansion           
+    \item D0 - BNE                        
+    \item D1 - CMP   (Indirect@,Y         
+    \item D2 - Future Expansion           
+    \item D3 - Future Expansion           
+    \item D4 - Future Expansion           
+    \item D5 - CMP - Zero Page,X          
+    \item D6 - DEC - Zero Page,X          
+    \item D7 - Future Expansion           
+    \item D8 - CLD                        
+    \item D9 - CMP - Absolute,Y           
+    \item DA - Future Expansion           
+    \item DB - Future Expansion           
+    \item DC - Future Expansion           
+    \item DD - CMP - Absolute,X           
+    \item DE - DEC - Absolute,X           
+    \item DF - Future Expansion           
+    \item E0 - CPX - Immediate
+    \item E1 - SBC - (Indirect,X)
+    \item E2 - Future Expansion
+    \item E3 - Future Expansion
+    \item E4 - CPX - Zero Page
+    \item E5 - SBC - Zero Page
+    \item E6 - INC - Zero Page
+    \item E7 - Future Expansion
+    \item E8 - INX
+    \item E9 - SBC - Immediate
+    \item EA - NOP
+    \item EB - Future Expansion
+    \item EC - CPX - Absolute
+    \item ED - SBC - Absolute
+    \item EE - INC - Absolute
+    \item EF - Future Expansion
+    \item F0 - BEQ
+    \item F1 - SBC - (Indirect),Y
+    \item F2 - Future Expansion
+    \item F3 - Future Expansion
+    \item F4 - Future Expansion
+    \item F5 - SBC - Zero Page,X
+    \item F6 - INC - Zero Page,X
+    \item F7 - Future Expansion
+    \item F8 - SED
+    \item F9 - SBC - Absolute,Y
+    \item FA - Future Expansion
+    \item FB - Future Expansion
+    \item FC - Future Expansion
+    \item FD - SBC - Absolute,X
+    \item FE - INC - Absolute,X
+    \item FF - Future Expansion
+  \end{enumerate}
+  \end{multicols}
+\end{document}
 
 INSTRUCTION OPERATION
 
